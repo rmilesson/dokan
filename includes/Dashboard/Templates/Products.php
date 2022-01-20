@@ -483,6 +483,9 @@ class Products {
             $product_type = empty( $postdata['product_type'] ) ? 'simple' : sanitize_text_field( $postdata['product_type'] );
             wp_set_object_terms( $post_id, $product_type, 'product_type' );
 
+            $cache_key = \WC_Cache_Helper::get_cache_prefix( 'product_' . $post_id ) . '_type_' . $post_id;
+            wp_cache_delete( $cache_key, 'products' );
+
             /**  Process all variation products meta */
             dokan_process_product_meta( $post_id, $postdata );
 
